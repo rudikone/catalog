@@ -3,6 +3,7 @@ package com.rudikov.catalog.service;
 import com.rudikov.catalog.model.entity.Department;
 import com.rudikov.catalog.repository.DepartmentRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
+
     public List<Department> getAllDepartments() {
         List<Department> departments = new ArrayList<>();
         departmentRepo.findAll().forEach(departments::add);

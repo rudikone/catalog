@@ -53,6 +53,18 @@ public class AdminRestController {
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    @PatchMapping("/employees/{id}")
+    @ApiOperation(value = "update employee")
+    public ResponseEntity<?> updateEmployee(@PathVariable Long id, @RequestBody EmployeeDTO employeeDTO) {
+        Employee newEmployee = employeeMapper.employeeDTOtoEmployee(employeeDTO);
+        Employee employeeForUpdate = employeeService.getEmployeeById(id);
+        employeeService.update(employeeForUpdate, newEmployee);
+        //employeeService.save(newEmployee);
+        return newEmployee != null
+                ? new ResponseEntity<>(employeeMapper.employeeToEmployeeDTO(newEmployee), HttpStatus.OK)
+                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
     @GetMapping("/employees")
     @ApiOperation(value = "show all employees")
     public ResponseEntity<List<Employee>> getAllEmployees() {

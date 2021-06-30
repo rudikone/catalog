@@ -12,4 +12,5 @@ public interface EmployeeService {
 
     public Employee getEmployeeById(Long id);
 
+    public void update(Employee employeeForUpdate, Employee newEmployee);
 }
