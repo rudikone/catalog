@@ -1,19 +1,19 @@
 package com.rudikov.catalog.service;
 
+import com.rudikov.catalog.exception.NoEntityException;
 import com.rudikov.catalog.model.entity.Employee;
 import com.rudikov.catalog.repository.EmployeeRepo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Lock;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.LockModeType;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 @Transactional
 public class EmployeeServiceImpl implements EmployeeService {
+
 
     private EmployeeRepo employeeRepo;
 
@@ -35,9 +35,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    @Lock(value = LockModeType.OPTIMISTIC)
-    public Employee getEmployeeById(Long id) {
-        return employeeRepo.findById(id).get();
+    public Employee getEmployeeById(Long id) throws NoEntityException {
+        return employeeRepo.findById(id).orElseThrow(() -> new NoEntityException(id));
     }
 
     @Override
