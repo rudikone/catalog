@@ -7,15 +7,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 @SpringBootTest
 @AutoConfigureMockMvc
 @WithUserDetails("admin")
-class AdminRestControllerTest {
+class EmployeeControllerTest {
 
     @Autowired
-    private AdminRestController adminRestController;
+    private EmployeeController employeeController;
 
     @Autowired
     private MockMvc mockMvc;
