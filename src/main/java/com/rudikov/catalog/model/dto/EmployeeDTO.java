@@ -1,9 +1,11 @@
 package com.rudikov.catalog.model.dto;
 
-import com.rudikov.catalog.model.entity.Department;
+import com.rudikov.catalog.model.entity.business.Department;
+import lombok.*;
 
-import java.util.Objects;
-
+@EqualsAndHashCode(of = {"id", "rank", "position", "firstName", "lastName", "phoneNumber"})
+@NoArgsConstructor
+@AllArgsConstructor
 public class EmployeeDTO {
 
     private Long id;
@@ -12,20 +14,7 @@ public class EmployeeDTO {
     private String firstName;
     private String lastName;
     private String phoneNumber;
-    private Department department;
-
-    public EmployeeDTO() {
-    }
-
-    public EmployeeDTO(Long id, String rank, String position, String firstName, String lastName, String phoneNumber, Department department) {
-        this.id = id;
-        this.rank = rank;
-        this.position = position;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.phoneNumber = phoneNumber;
-        this.department = department;
-    }
+    private String department;
 
     public Long getId() {
         return id;
@@ -75,30 +64,11 @@ public class EmployeeDTO {
         this.phoneNumber = phoneNumber;
     }
 
-    public Department getDepartment() {
+    public String getDepartment() {
         return department;
     }
 
-    public void setDepartment(Department department) {
+    public void setDepartment(String department) {
         this.department = department;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        EmployeeDTO that = (EmployeeDTO) o;
-        return Objects.equals(id, that.id) &&
-                Objects.equals(rank, that.rank) &&
-                Objects.equals(position, that.position) &&
-                Objects.equals(firstName, that.firstName) &&
-                Objects.equals(lastName, that.lastName) &&
-                Objects.equals(phoneNumber, that.phoneNumber) &&
-                Objects.equals(department, that.department);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, rank, position, firstName, lastName, phoneNumber, department);
     }
 }

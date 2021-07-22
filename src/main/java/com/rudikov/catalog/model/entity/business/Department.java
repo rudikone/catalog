@@ -1,16 +1,18 @@
-package com.rudikov.catalog.model.entity;
+package com.rudikov.catalog.model.entity.business;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Objects;
 import java.util.Set;
 
 @Entity
+@EqualsAndHashCode(of = {"id", "name"})
+@NoArgsConstructor
+@AllArgsConstructor
 public class Department {
 
     @Id
@@ -26,17 +28,8 @@ public class Department {
     private String name;
 
     @JsonManagedReference
-    @OneToMany(mappedBy="department", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private Set<Employee> employees;
-
-    public Department() {
-    }
-
-    public Department(Long id, String name, Set<Employee> employees) {
-        this.id = id;
-        this.name = name;
-        this.employees = employees;
-    }
 
     public Long getId() {
         return id;
@@ -44,6 +37,14 @@ public class Department {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public LocalDateTime getPersistDateTime() {
+        return persistDateTime;
+    }
+
+    public void setPersistDateTime(LocalDateTime persistDateTime) {
+        this.persistDateTime = persistDateTime;
     }
 
     public String getName() {
@@ -63,16 +64,9 @@ public class Department {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Department that = (Department) o;
-        return id.equals(that.id) &&
-                name.equals(that.name);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name);
+    public String toString() {
+        return "Department{" +
+                "name='" + name + '\'' +
+                '}';
     }
 }

@@ -1,12 +1,16 @@
 package com.rudikov.catalog.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 import java.util.Set;
 
 @Entity
+@EqualsAndHashCode(of = {"id", "role"})
+@NoArgsConstructor
+@AllArgsConstructor
 public class Role implements GrantedAuthority {
 
     @Id
@@ -20,15 +24,6 @@ public class Role implements GrantedAuthority {
     @JsonIgnore
     @ManyToMany(mappedBy = "roles")
     private Set<Moderator> moderators;
-
-    public Role() {
-    }
-
-    public Role(Integer id, String role, Set<Moderator> moderators) {
-        this.id = id;
-        this.role = role;
-        this.moderators = moderators;
-    }
 
     public Integer getId() {
         return id;

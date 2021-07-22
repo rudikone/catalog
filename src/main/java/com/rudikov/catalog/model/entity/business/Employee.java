@@ -1,14 +1,18 @@
-package com.rudikov.catalog.model.entity;
+package com.rudikov.catalog.model.entity.business;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.rudikov.catalog.model.entity.business.Department;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Objects;
 
 @Entity
+@EqualsAndHashCode(of = {"id", "rank", "position", "firstName", "lastName", "phoneNumber"})
+@NoArgsConstructor
+@AllArgsConstructor
 public class Employee {
 
     @Id
@@ -40,25 +44,20 @@ public class Employee {
     @JoinColumn(name = "department_id", nullable = false)
     private Department department;
 
-    public Employee() {
-    }
-
-    public Employee(Long id, String rank, String position, String firstName, String lastName, String phoneNumber, Department department) {
-        this.id = id;
-        this.rank = rank;
-        this.position = position;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.phoneNumber = phoneNumber;
-        this.department = department;
-    }
-
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public LocalDateTime getPersistDateTime() {
+        return persistDateTime;
+    }
+
+    public void setPersistDateTime(LocalDateTime persistDateTime) {
+        this.persistDateTime = persistDateTime;
     }
 
     public String getRank() {
@@ -107,23 +106,5 @@ public class Employee {
 
     public void setDepartment(Department department) {
         this.department = department;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Employee employee = (Employee) o;
-        return id.equals(employee.id) &&
-                rank.equals(employee.rank) &&
-                position.equals(employee.position) &&
-                firstName.equals(employee.firstName) &&
-                lastName.equals(employee.lastName) &&
-                phoneNumber.equals(employee.phoneNumber);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, rank, position, firstName, lastName, phoneNumber);
     }
 }

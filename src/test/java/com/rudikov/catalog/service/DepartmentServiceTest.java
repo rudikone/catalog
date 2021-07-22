@@ -1,7 +1,7 @@
 package com.rudikov.catalog.service;
 
 import com.rudikov.catalog.exception.NotFoundDepartmentException;
-import com.rudikov.catalog.model.entity.Department;
+import com.rudikov.catalog.model.entity.business.Department;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

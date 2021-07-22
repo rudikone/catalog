@@ -1,7 +1,7 @@
 package com.rudikov.catalog.service;
 
 import com.rudikov.catalog.exception.NoEntityException;
-import com.rudikov.catalog.model.entity.Employee;
+import com.rudikov.catalog.model.entity.business.Employee;
 import com.rudikov.catalog.repository.EmployeeRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

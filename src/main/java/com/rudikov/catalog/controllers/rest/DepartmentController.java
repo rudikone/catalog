@@ -1,8 +1,9 @@
 package com.rudikov.catalog.controllers.rest;
 
-import com.rudikov.catalog.exception.NoEntityException;
+import com.rudikov.catalog.converters.DepartmentMapper;
 import com.rudikov.catalog.exception.NotFoundDepartmentException;
-import com.rudikov.catalog.model.entity.Department;
+import com.rudikov.catalog.model.dto.DepartmentDTO;
+import com.rudikov.catalog.model.entity.business.Department;
 import com.rudikov.catalog.service.DepartmentService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -18,17 +19,19 @@ import java.util.List;
 public class DepartmentController {
 
     private DepartmentService departmentService;
+    private DepartmentMapper departmentMapper;
 
     @Autowired
-    public DepartmentController(DepartmentService departmentService) {
+    public DepartmentController(DepartmentService departmentService, DepartmentMapper departmentMapper) {
         this.departmentService = departmentService;
+        this.departmentMapper = departmentMapper;
     }
 
     @GetMapping("/departments/{id}")
     @ApiOperation(value = "show department by id")
-    public ResponseEntity<Department> getDepartmentById(@PathVariable Long id) throws NotFoundDepartmentException {
+    public ResponseEntity<DepartmentDTO> getDepartmentById(@PathVariable Long id) throws NotFoundDepartmentException {
         Department department = departmentService.getDepartmentById(id);
-        return new ResponseEntity<>(department, HttpStatus.OK);
+        return new ResponseEntity<>(departmentMapper.departmentToDepartmentDTO(department), HttpStatus.OK);
 
     }
 

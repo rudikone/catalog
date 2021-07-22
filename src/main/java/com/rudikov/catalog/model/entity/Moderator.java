@@ -1,5 +1,9 @@
 package com.rudikov.catalog.model.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -8,6 +12,8 @@ import java.util.Collection;
 import java.util.Set;
 
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 public class Moderator implements UserDetails {
 
     @Id
@@ -28,24 +34,6 @@ public class Moderator implements UserDetails {
     )
     private Set<Role> roles;
 
-    public Moderator() {
-    }
-
-    public Moderator(Long id, String login, String password, Set<Role> roles) {
-        this.id = id;
-        this.login = login;
-        this.password = password;
-        this.roles = roles;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public String getLogin() {
         return login;
     }
@@ -65,7 +53,6 @@ public class Moderator implements UserDetails {
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
