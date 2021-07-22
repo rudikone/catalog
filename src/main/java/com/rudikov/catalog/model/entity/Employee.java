@@ -1,10 +1,12 @@
 package com.rudikov.catalog.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Entity
 public class Employee {
@@ -33,7 +35,8 @@ public class Employee {
     @Column(name = "phone_number")
     private String phoneNumber;
 
-    @ManyToOne
+    @JsonBackReference
+    @ManyToOne(targetEntity = Department.class)
     @JoinColumn(name = "department_id", nullable = false)
     private Department department;
 
@@ -104,5 +107,23 @@ public class Employee {
 
     public void setDepartment(Department department) {
         this.department = department;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Employee employee = (Employee) o;
+        return id.equals(employee.id) &&
+                rank.equals(employee.rank) &&
+                position.equals(employee.position) &&
+                firstName.equals(employee.firstName) &&
+                lastName.equals(employee.lastName) &&
+                phoneNumber.equals(employee.phoneNumber);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, rank, position, firstName, lastName, phoneNumber);
     }
 }

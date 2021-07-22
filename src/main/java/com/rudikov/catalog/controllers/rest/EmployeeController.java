@@ -7,6 +7,8 @@ import com.rudikov.catalog.model.entity.Employee;
 import com.rudikov.catalog.service.EmployeeService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,13 +29,12 @@ public class EmployeeController {
         this.employeeMapper = employeeMapper;
     }
 
-    @PostMapping("/admin/employees/create")
+    @PostMapping("/admin/employees")
+    @ApiOperation(value = "add new employee")
     public ResponseEntity<Employee> addNewEmployee(@RequestBody EmployeeDTO employeeDTO) {
         Employee employee = employeeMapper.employeeDTOtoEmployee(employeeDTO);
         employeeService.save(employee);
-        return employee != null
-                ? new ResponseEntity<>(employee, HttpStatus.OK)
-                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(employee, HttpStatus.OK);
     }
 
     @GetMapping("/employees/{id}")

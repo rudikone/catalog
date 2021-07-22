@@ -1,11 +1,12 @@
 package com.rudikov.catalog.service;
 
-import com.rudikov.catalog.exception.NoEntityException;
+import com.rudikov.catalog.exception.NotFoundDepartmentException;
 import com.rudikov.catalog.model.entity.Department;
 import com.rudikov.catalog.repository.DepartmentRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,13 +34,13 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public Department getDepartmentById(Long id) throws NoEntityException {
-        return departmentRepo.findById(id).orElseThrow(() -> new NoEntityException(id));
+    public Department getDepartmentById(Long id) throws NotFoundDepartmentException {
+        return departmentRepo.findById(id).orElseThrow(() -> new NotFoundDepartmentException(id));
     }
 
     @Override
-    public Department update(Long id, String name) throws NoEntityException {
-        Department departmentFromDb = departmentRepo.findById(id).orElseThrow(() -> new NoEntityException(id));
+    public Department update(Long id, String name) throws NotFoundDepartmentException {
+        Department departmentFromDb = departmentRepo.findById(id).orElseThrow(() -> new NotFoundDepartmentException(id));
         departmentFromDb.setName(name);
         departmentRepo.save(departmentFromDb);
         return departmentFromDb;

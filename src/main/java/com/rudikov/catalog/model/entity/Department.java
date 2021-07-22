@@ -1,11 +1,13 @@
 package com.rudikov.catalog.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -23,8 +25,8 @@ public class Department {
     @Column(name = "department_name")
     private String name;
 
-    @JsonIgnore
-    @OneToMany(mappedBy="department")
+    @JsonManagedReference
+    @OneToMany(mappedBy="department", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private Set<Employee> employees;
 
     public Department() {
@@ -58,5 +60,19 @@ public class Department {
 
     public void setEmployees(Set<Employee> employees) {
         this.employees = employees;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Department that = (Department) o;
+        return id.equals(that.id) &&
+                name.equals(that.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name);
     }
 }

@@ -1,6 +1,7 @@
 package com.rudikov.catalog.controllers.rest;
 
 import com.rudikov.catalog.exception.NoEntityException;
+import com.rudikov.catalog.exception.NotFoundDepartmentException;
 import com.rudikov.catalog.model.entity.Department;
 import com.rudikov.catalog.service.DepartmentService;
 import io.swagger.annotations.Api;
@@ -25,11 +26,10 @@ public class DepartmentController {
 
     @GetMapping("/departments/{id}")
     @ApiOperation(value = "show department by id")
-    public ResponseEntity<Department> getDepartmentById(@PathVariable Long id) throws NoEntityException {
+    public ResponseEntity<Department> getDepartmentById(@PathVariable Long id) throws NotFoundDepartmentException {
         Department department = departmentService.getDepartmentById(id);
-        return department != null
-                ? new ResponseEntity<>(department, HttpStatus.OK)
-                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(department, HttpStatus.OK);
+
     }
 
     @GetMapping("/departments")
@@ -52,7 +52,7 @@ public class DepartmentController {
 
     @PutMapping("/admin/departments/{id}")
     @ApiOperation(value = "update department")
-    public ResponseEntity<Department> update(@PathVariable Long id, @RequestBody String name) throws NoEntityException {
+    public ResponseEntity<Department> update(@PathVariable Long id, @RequestBody String name) throws NotFoundDepartmentException {
         Department departmentFromDb = departmentService.update(id, name);
         return departmentFromDb != null
                 ? new ResponseEntity<>(departmentFromDb, HttpStatus.OK)
@@ -60,6 +60,7 @@ public class DepartmentController {
     }
 
     @DeleteMapping("/admin/departments/{id}")
+    @ApiOperation(value = "delete department")
     public void delete(@PathVariable Long id) {
         departmentService.remove(id);
     }
