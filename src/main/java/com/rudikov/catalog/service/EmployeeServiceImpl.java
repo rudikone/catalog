@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @Transactional
@@ -40,15 +41,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public void update(Employee employeeForUpdate, Employee newEmployee) {
-        employeeForUpdate.setRank(newEmployee.getRank());
-        employeeForUpdate.setPosition(newEmployee.getPosition());
-        employeeForUpdate.setFirstName(newEmployee.getFirstName());
-        employeeForUpdate.setLastName(newEmployee.getLastName());
-        employeeForUpdate.setPhoneNumber(newEmployee.getPhoneNumber());
-        employeeForUpdate.setDepartment(newEmployee.getDepartment());
-        employeeRepo.save(employeeForUpdate);
+    public Set<Employee> findAllByDepartmentName(String departmentName) {
+        return employeeRepo.findAllByDepartmentName(departmentName).get();
     }
-
 
 }

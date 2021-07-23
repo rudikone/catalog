@@ -4,6 +4,7 @@ import com.rudikov.catalog.exception.NoEntityException;
 import com.rudikov.catalog.model.entity.business.Employee;
 
 import java.util.List;
+import java.util.Set;
 
 public interface EmployeeService {
 
@@ -13,5 +14,5 @@ public interface EmployeeService {
 
     public Employee getEmployeeById(Long id) throws NoEntityException;
 
-    public void update(Employee employeeForUpdate, Employee newEmployee);
+    public Set<Employee> findAllByDepartmentName(String departmentName);
 }

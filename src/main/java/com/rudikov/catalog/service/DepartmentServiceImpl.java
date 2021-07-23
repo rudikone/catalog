@@ -39,16 +39,13 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public Department update(Long id, String name) throws NotFoundDepartmentException {
-        Department departmentFromDb = departmentRepo.findById(id).orElseThrow(() -> new NotFoundDepartmentException(id));
-        departmentFromDb.setName(name);
-        departmentRepo.save(departmentFromDb);
-        return departmentFromDb;
+    public void remove(Long id) {
+        departmentRepo.deleteById(id);
     }
 
     @Override
-    public void remove(Long id) {
-        departmentRepo.deleteById(id);
+    public Department findDepartmentByName(String name) {
+        return departmentRepo.findDepartmentByName(name).get();
     }
 
 

@@ -2,11 +2,11 @@ package com.rudikov.catalog.converters;
 
 import com.rudikov.catalog.model.dto.EmployeeDTO;
 import com.rudikov.catalog.model.entity.business.Employee;
-import com.rudikov.catalog.repository.DepartmentRepo;
+import com.rudikov.catalog.service.DepartmentService;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
-@Mapper(componentModel = "spring", uses = DepartmentMapper.class)
+@Mapper(componentModel = "spring")
 public interface EmployeeMapper {
 
     EmployeeMapper INSTANCE = Mappers.getMapper(EmployeeMapper.class);
@@ -15,11 +15,11 @@ public interface EmployeeMapper {
     public EmployeeDTO employeeToEmployeeDTO(Employee employee);
 
     @Mapping(ignore = true, target = "department")
-    public Employee employeeDTOtoEmployee(EmployeeDTO employeeDTO, @Context DepartmentRepo repo);
+    public Employee employeeDTOtoEmployee(EmployeeDTO employeeDTO, @Context DepartmentService service);
 
     @AfterMapping
-    default void map(@MappingTarget Employee target, EmployeeDTO employeeDTO, @Context DepartmentRepo repo) {
-        target.setDepartment(repo.findDepartmentByName(employeeDTO.getDepartment()).get());
+    default void map(@MappingTarget Employee target, EmployeeDTO employeeDTO, @Context DepartmentService service) {
+        target.setDepartment(service.findDepartmentByName(employeeDTO.getDepartment()));
     }
 }
 

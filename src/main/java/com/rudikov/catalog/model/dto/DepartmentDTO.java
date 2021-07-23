@@ -1,6 +1,5 @@
 package com.rudikov.catalog.model.dto;
 
-import com.rudikov.catalog.model.entity.business.Employee;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -14,7 +13,7 @@ public class DepartmentDTO {
 
     private Long id;
     private String name;
-    private Set<EmployeeDTO> employeeDTOs;
+    private Set<EmployeeDTO> employees;
 
     public Long getId() {
         return id;
@@ -32,11 +31,11 @@ public class DepartmentDTO {
         this.name = name;
     }
 
-    public Set<EmployeeDTO> getEmployeeDTOs() {
-        return employeeDTOs;
+    public Set<EmployeeDTO> getEmployees() {
+        return employees;
     }
 
-    public void setEmployeeDTOs(Set<EmployeeDTO> employeeDTOs) {
-        this.employeeDTOs = employeeDTOs;
+    public void setEmployees(Set<EmployeeDTO> employees) {
+        this.employees = employees;
     }
 }

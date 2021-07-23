@@ -13,7 +13,7 @@ public interface DepartmentService {
 
     Department getDepartmentById(Long id) throws NotFoundDepartmentException;
 
-    Department update(Long id, String name) throws NotFoundDepartmentException;
-
     void remove(Long id);
+
+    Department findDepartmentByName(String name);
 }

@@ -1,7 +1,8 @@
 package com.rudikov.catalog.model.dto;
 
-import com.rudikov.catalog.model.entity.business.Department;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 @EqualsAndHashCode(of = {"id", "rank", "position", "firstName", "lastName", "phoneNumber"})
 @NoArgsConstructor

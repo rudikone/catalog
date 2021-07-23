@@ -1,8 +1,9 @@
 package com.rudikov.catalog.model.entity.business;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.rudikov.catalog.model.entity.business.Department;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
 
@@ -41,7 +42,7 @@ public class Employee {
 
     @JsonBackReference
     @ManyToOne(targetEntity = Department.class)
-    @JoinColumn(name = "department_id", nullable = false)
+    @JoinColumn(name = "department_id")
     private Department department;
 
     public Long getId() {

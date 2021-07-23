@@ -1,7 +1,6 @@
 package com.rudikov.catalog.controllers.rest;
 
 import com.rudikov.catalog.converters.DepartmentMapper;
-import com.rudikov.catalog.exception.NotFoundDepartmentException;
 import com.rudikov.catalog.model.dto.DepartmentDTO;
 import com.rudikov.catalog.model.entity.business.Department;
 import com.rudikov.catalog.service.DepartmentService;
@@ -13,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @Api(value = "DepartmentApi")
@@ -29,18 +29,18 @@ public class DepartmentController {
 
     @GetMapping("/departments/{id}")
     @ApiOperation(value = "show department by id")
-    public ResponseEntity<DepartmentDTO> getDepartmentById(@PathVariable Long id) throws NotFoundDepartmentException {
-        Department department = departmentService.getDepartmentById(id);
+    public ResponseEntity<DepartmentDTO> getDepartmentById(@PathVariable("id") Department department) {
         return new ResponseEntity<>(departmentMapper.departmentToDepartmentDTO(department), HttpStatus.OK);
 
     }
 
     @GetMapping("/departments")
     @ApiOperation(value = "show all departments")
-    public ResponseEntity<List<Department>> getAllDepartments() {
+    public ResponseEntity<List<DepartmentDTO>> getAllDepartments() {
         List<Department> departments = departmentService.getAllDepartments();
-        return departments != null && !departments.isEmpty()
-                ? new ResponseEntity<>(departments, HttpStatus.OK)
+        List<DepartmentDTO> departmentDTOList = departments.stream().map(department -> departmentMapper.departmentToDepartmentDTO(department)).collect(Collectors.toList());
+        return departmentDTOList != null && !departmentDTOList.isEmpty()
+                ? new ResponseEntity<>(departmentDTOList, HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
@@ -55,11 +55,10 @@ public class DepartmentController {
 
     @PutMapping("/admin/departments/{id}")
     @ApiOperation(value = "update department")
-    public ResponseEntity<Department> update(@PathVariable Long id, @RequestBody String name) throws NotFoundDepartmentException {
-        Department departmentFromDb = departmentService.update(id, name);
-        return departmentFromDb != null
-                ? new ResponseEntity<>(departmentFromDb, HttpStatus.OK)
-                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    public ResponseEntity<DepartmentDTO> update(@PathVariable("id") Department departmentFromDb, @RequestBody String name) {
+        departmentFromDb.setName(name);
+        departmentService.save(departmentFromDb);
+        return new ResponseEntity<>(departmentMapper.departmentToDepartmentDTO(departmentFromDb), HttpStatus.OK);
     }
 
     @DeleteMapping("/admin/departments/{id}")

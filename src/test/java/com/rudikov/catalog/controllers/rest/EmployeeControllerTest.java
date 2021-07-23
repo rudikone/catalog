@@ -12,8 +12,8 @@ import org.springframework.test.web.servlet.MockMvc;
 @WithUserDetails("admin")
 class EmployeeControllerTest {
 
-    @Autowired
-    private EmployeeController employeeController;
+//    @Autowired
+//    private EmployeeController employeeController;
 
     @Autowired
     private MockMvc mockMvc;
