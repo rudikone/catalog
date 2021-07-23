@@ -1,8 +1,8 @@
-package com.rudikov.catalog.service;
+package com.rudikov.catalog.service.impl;
 
-import com.rudikov.catalog.exception.NoEntityException;
 import com.rudikov.catalog.model.entity.business.Employee;
 import com.rudikov.catalog.repository.EmployeeRepo;
+import com.rudikov.catalog.service.abstr.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,18 +31,23 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public void save(Employee employee) {
-        employeeRepo.save(employee);
+    public Employee save(Employee employee) {
+        return employeeRepo.save(employee);
     }
 
     @Override
-    public Employee getEmployeeById(Long id) throws NoEntityException {
-        return employeeRepo.findById(id).orElseThrow(() -> new NoEntityException(id));
+    public Employee getEmployeeById(Long id) {
+        return employeeRepo.findById(id).get();
     }
 
     @Override
     public Set<Employee> findAllByDepartmentName(String departmentName) {
         return employeeRepo.findAllByDepartmentName(departmentName).get();
+    }
+
+    @Override
+    public void remove(Long id) {
+        employeeRepo.deleteById(id);
     }
 
 }

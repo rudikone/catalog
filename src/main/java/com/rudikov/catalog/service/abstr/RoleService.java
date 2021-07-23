@@ -1,4 +1,4 @@
-package com.rudikov.catalog.service;
+package com.rudikov.catalog.service.abstr;
 
 
 import com.rudikov.catalog.model.entity.Role;
@@ -11,5 +11,5 @@ public interface RoleService {
 
     Role findRoleById(Integer id);
 
-    void save(Role role);
+    Role save(Role role);
 }

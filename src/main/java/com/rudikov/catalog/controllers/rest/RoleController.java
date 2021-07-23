@@ -1,7 +1,7 @@
 package com.rudikov.catalog.controllers.rest;
 
 import com.rudikov.catalog.model.entity.Role;
-import com.rudikov.catalog.service.RoleService;
+import com.rudikov.catalog.service.abstr.RoleService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

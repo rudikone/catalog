@@ -2,7 +2,7 @@ package com.rudikov.catalog.converters;
 
 import com.rudikov.catalog.model.dto.EmployeeDTO;
 import com.rudikov.catalog.model.entity.business.Employee;
-import com.rudikov.catalog.service.DepartmentService;
+import com.rudikov.catalog.service.abstr.DepartmentService;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 

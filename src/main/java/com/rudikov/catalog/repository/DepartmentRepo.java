@@ -11,4 +11,6 @@ public interface DepartmentRepo extends CrudRepository<Department, Long> {
 
     Optional<Department> findDepartmentByName(String name);
 
+    Boolean existsByName(String name);
+
 }

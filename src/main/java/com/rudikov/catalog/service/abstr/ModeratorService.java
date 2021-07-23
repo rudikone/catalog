@@ -1,4 +1,4 @@
-package com.rudikov.catalog.service;
+package com.rudikov.catalog.service.abstr;
 
 import com.rudikov.catalog.model.entity.Moderator;
 
@@ -9,7 +9,7 @@ public interface ModeratorService {
 
     public Moderator getModeratorById(Long id);
 
-    public void save(Moderator moderator);
+    public Moderator save(Moderator moderator);
 
     public void delete(Long id);
     }

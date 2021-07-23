@@ -4,7 +4,7 @@ import com.rudikov.catalog.model.dto.DepartmentDTO;
 import com.rudikov.catalog.model.dto.EmployeeDTO;
 import com.rudikov.catalog.model.entity.business.Department;
 import com.rudikov.catalog.model.entity.business.Employee;
-import com.rudikov.catalog.service.EmployeeService;
+import com.rudikov.catalog.service.abstr.EmployeeService;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 

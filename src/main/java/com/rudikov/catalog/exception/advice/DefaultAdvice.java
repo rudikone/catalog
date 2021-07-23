@@ -1,8 +1,7 @@
 package com.rudikov.catalog.exception.advice;
 
-import com.rudikov.catalog.exception.NoEntityException;
-
-import com.rudikov.catalog.exception.NotFoundDepartmentException;
+import com.rudikov.catalog.exception.NoFoundEntityException;
+import com.rudikov.catalog.exception.NoSavedEntityException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,18 +13,18 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
 public class DefaultAdvice extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler({NoEntityException.class})
-    public ResponseEntity<Object> handleNoEntityException(
-            NoEntityException e, WebRequest request) {
+    @ExceptionHandler({NoFoundEntityException.class})
+    public ResponseEntity<Object> handleNoFoundEntityException(
+            NoFoundEntityException e, WebRequest request) {
         return new ResponseEntity<Object>(
-                e.getMessage(), new HttpHeaders(), HttpStatus.FORBIDDEN);
+                e.getMessage(), new HttpHeaders(), HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler({NotFoundDepartmentException.class})
+    @ExceptionHandler({NoSavedEntityException.class})
     public ResponseEntity<Object> handleNotFoundDepartmentException(
-            NotFoundDepartmentException e, WebRequest request) {
+            NoSavedEntityException e, WebRequest request) {
         return new ResponseEntity<Object>(
-                e.getMessage(), new HttpHeaders(), HttpStatus.FORBIDDEN);
+                e.getMessage(), new HttpHeaders(), HttpStatus.BAD_REQUEST);
     }
 
 

@@ -1,8 +1,8 @@
-package com.rudikov.catalog.service;
+package com.rudikov.catalog.service.impl;
 
-import com.rudikov.catalog.exception.NotFoundDepartmentException;
 import com.rudikov.catalog.model.entity.business.Department;
 import com.rudikov.catalog.repository.DepartmentRepo;
+import com.rudikov.catalog.service.abstr.DepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,13 +29,13 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public void save(Department department) {
-        departmentRepo.save(department);
+    public Department save(Department department) {
+        return departmentRepo.save(department);
     }
 
     @Override
-    public Department getDepartmentById(Long id) throws NotFoundDepartmentException {
-        return departmentRepo.findById(id).orElseThrow(() -> new NotFoundDepartmentException(id));
+    public Department getDepartmentById(Long id) {
+        return departmentRepo.findById(id).get();
     }
 
     @Override

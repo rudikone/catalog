@@ -1,14 +1,17 @@
-package com.rudikov.catalog.service;
+package com.rudikov.catalog.service.impl;
 
 import com.rudikov.catalog.model.entity.Role;
 import com.rudikov.catalog.repository.RoleRepo;
+import com.rudikov.catalog.service.abstr.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Transactional
 public class RoleServiceImpl implements RoleService {
 
     private RoleRepo roleRepo;
@@ -31,7 +34,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public void save(Role role) {
-        roleRepo.save(role);
+    public Role save(Role role) {
+        return roleRepo.save(role);
     }
 }

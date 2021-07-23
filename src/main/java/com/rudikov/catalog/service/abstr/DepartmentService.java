@@ -1,6 +1,5 @@
-package com.rudikov.catalog.service;
+package com.rudikov.catalog.service.abstr;
 
-import com.rudikov.catalog.exception.NotFoundDepartmentException;
 import com.rudikov.catalog.model.entity.business.Department;
 
 import java.util.List;
@@ -9,9 +8,9 @@ public interface DepartmentService {
 
     List<Department> getAllDepartments();
 
-    void save(Department department);
+    Department save(Department department);
 
-    Department getDepartmentById(Long id) throws NotFoundDepartmentException;
+    Department getDepartmentById(Long id);
 
     void remove(Long id);
 

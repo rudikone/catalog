@@ -1,7 +1,7 @@
 package com.rudikov.catalog.service;
 
-import com.rudikov.catalog.exception.NotFoundDepartmentException;
 import com.rudikov.catalog.model.entity.business.Department;
+import com.rudikov.catalog.service.abstr.DepartmentService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ class DepartmentServiceTest {
     }
 
     @Test
-    public void whenValidDepartmentNameThenOk() throws NotFoundDepartmentException {
+    public void whenValidDepartmentNameThenOk() {
         Long id = 1L;
         Department found = departmentService.getDepartmentById(id);
 
