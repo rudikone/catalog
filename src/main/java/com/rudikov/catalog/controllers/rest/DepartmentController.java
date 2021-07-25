@@ -43,8 +43,9 @@ public class DepartmentController {
     @ApiOperation(value = "show all departments")
     public ResponseEntity<List<DepartmentDTO>> getAllDepartments() {
         List<Department> departments = departmentService.getAllDepartments();
+
         List<DepartmentDTO> departmentDTOList = departments.stream().map(department -> departmentMapper.departmentToDepartmentDTO(department)).collect(Collectors.toList());
-        return departmentDTOList != null && !departmentDTOList.isEmpty()
+        return !departmentDTOList.isEmpty()
                 ? new ResponseEntity<>(departmentDTOList, HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
@@ -72,7 +73,7 @@ public class DepartmentController {
 
     @DeleteMapping("/admin/departments/{id}")
     @ApiOperation(value = "delete department")
-    public void delete(@PathVariable Long id) {
+    public void deleteDepartment(@PathVariable Long id) {
         checkEntityService.checkExistDepartmentById(id);
         departmentService.remove(id);
     }

@@ -1,55 +1,28 @@
 package com.rudikov.catalog.controllers.rest;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rudikov.catalog.model.dto.DepartmentDTO;
-import com.rudikov.catalog.model.dto.EmployeeDTO;
+import com.rudikov.catalog.model.entity.business.Department;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers;
-import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.web.servlet.MockMvc;
-
-import java.util.HashSet;
-import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.core.StringContains.containsString;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@SpringBootTest
-@AutoConfigureMockMvc
-@WithUserDetails("admin")
-@TestPropertySource("/application-test.properties")
-@Sql(value = {"/sql/create-department-before.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-@Sql(value = {"/sql/create-employee-before.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-@Sql(value = {"/sql/create-department-after.sql"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
-@Sql(value = {"/sql/create-employee-after.sql"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
-class DepartmentControllerTest {
 
-    @Autowired
-    private DepartmentController controller;
-
-    @Autowired
-    private MockMvc mockMvc;
-
-    @Autowired
-    ObjectMapper objectMapper;
+class DepartmentControllerTest extends AbstractControllerTest {
 
     @Test
-    public void contextLoads() throws Exception {
-        assertThat(controller).isNotNull();
+    void contextLoads() {
+        assertThat(mockMvc).isNotNull();
+        assertThat(departmentRepo).isNotNull();
     }
 
     @Test
-    public void isAuthenticated() throws Exception {
+    void isAuthenticated() throws Exception {
         this.mockMvc.perform(get("/"))
                 .andDo(print())
                 .andExpect(SecurityMockMvcResultMatchers.authenticated());
@@ -57,22 +30,9 @@ class DepartmentControllerTest {
 
     @Test
     void getDepartmentByIdStatusOk() throws Exception {
-//        EmployeeDTO employeeDTO = new EmployeeDTO();
-//        employeeDTO.setId(1L);
-//        employeeDTO.setFirstName("Иван");
-//        employeeDTO.setLastName("Иванов");
-//        employeeDTO.setRank("Главный");
-//        employeeDTO.setPosition("Менеджер");
-//        employeeDTO.setDepartment("Отдел кадров");
-//        employeeDTO.setPhoneNumber("11-11");
-//
-//        Set<EmployeeDTO> employeeDTOSet = new HashSet<>();
-//        employeeDTOSet.add(employeeDTO);
-
         DepartmentDTO departmentDTO = new DepartmentDTO();
         departmentDTO.setId(1L);
         departmentDTO.setName("Отдел кадров");
-
 
         this.mockMvc.perform(get("/departments/1"))
                 .andDo(print())
@@ -82,6 +42,8 @@ class DepartmentControllerTest {
                 .andExpect(jsonPath("name").value(departmentDTO.getName()))
                 .andExpect(jsonPath("employees").isNotEmpty())
                 .andExpect(status().isOk());
+
+        assertThat(departmentRepo.findById(departmentDTO.getId()).get().getName()).isEqualTo(departmentDTO.getName());
     }
 
     @Test
@@ -92,10 +54,12 @@ class DepartmentControllerTest {
                 .andExpect(SecurityMockMvcResultMatchers.authenticated())
                 .andExpect(content().string("Department с id=" + id + " не найден!"))
                 .andExpect(status().isNotFound());
+
+        assertThat(departmentRepo.findById((long) id).orElse(new Department()).getName()).isNull();
     }
 
     @Test
-    void getAllDepartments() throws Exception {
+    void getAllDepartmentsStatusOk() throws Exception {
 
         this.mockMvc.perform(get("/departments"))
                 .andDo(print())
@@ -105,7 +69,7 @@ class DepartmentControllerTest {
     }
 
     @Test
-    void addNewDepartment() throws Exception {
+    void addNewDepartmentStatusOk() throws Exception {
         String name = "Отдел безопасности";
 
         this.mockMvc.perform(post("/admin/departments")
@@ -117,14 +81,59 @@ class DepartmentControllerTest {
                 .andExpect(jsonPath("employees").isEmpty())
                 .andExpect(status().isOk());
 
+        assertThat(departmentRepo.findDepartmentByName(name)).isNotNull();
     }
 
     @Test
-    void update() {
+    void updateStatusOk() throws Exception {
+        String name = "Отдел отделов";
+        int id = 1;
 
+        this.mockMvc.perform(put("/admin/departments/" + id)
+                .content(name)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(SecurityMockMvcResultMatchers.authenticated())
+                .andExpect(jsonPath("id").exists())
+                .andExpect(jsonPath("name").value(name))
+                .andExpect(jsonPath("employees").isNotEmpty())
+                .andExpect(status().isOk());
+
+        assertThat(departmentRepo.findById((long) id).get().getName()).isEqualTo(name);
     }
 
     @Test
-    void delete() {
+    void updateStatusNotFound() throws Exception {
+        String name = "Отдел отделов";
+        int id = 100;
+
+        this.mockMvc.perform(put("/admin/departments/" + id)
+                .content(name)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(SecurityMockMvcResultMatchers.authenticated())
+                .andExpect(content().string("Department с id=" + id + " не найден!"))
+                .andExpect(status().isNotFound());
+
+        assertThat(departmentRepo.findById((long) id).orElse(new Department()).getId()).isNull();
+    }
+
+    @Test
+    void deleteDepartmentStatusOk() throws Exception {
+        int id = 2;
+        mockMvc.perform(delete("/admin/departments/" + id))
+                .andExpect(SecurityMockMvcResultMatchers.authenticated())
+                .andExpect(status().isOk());
+
+        assertThat(departmentRepo.findById((long) id).orElse(new Department()).getId()).isNull();
+    }
+
+    @Test
+    void deleteDepartmentStatusNotFound() throws Exception {
+        int id = 100;
+        mockMvc.perform(delete("/admin/departments/" + id))
+                .andExpect(SecurityMockMvcResultMatchers.authenticated())
+                .andExpect(content().string("Department с id=" + id + " не найден!"))
+                .andExpect(status().isNotFound());
+
+        assertThat(departmentRepo.findById((long) id).orElse(new Department()).getId()).isNull();
     }
 }

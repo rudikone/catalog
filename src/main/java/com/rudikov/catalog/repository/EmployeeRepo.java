@@ -10,4 +10,9 @@ import java.util.Set;
 @Repository
 public interface EmployeeRepo extends CrudRepository<Employee, Long> {
     Optional<Set<Employee>> findAllByDepartmentName(String departmentName);
+
+    Optional<Employee> findByFirstNameAndLastNameAndRankAndPosition(String firstName,
+                                                                    String lastName,
+                                                                    String rank,
+                                                                    String position);
 }

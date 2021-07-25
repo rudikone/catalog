@@ -16,6 +16,8 @@ public class CheckEntityServiceImpl implements CheckEntityService {
     private DepartmentRepo departmentRepo;
     private EmployeeRepo employeeRepo;
 
+    private final String NOT_FOUND_TEXT = " не найден!";
+
     @Autowired
     public CheckEntityServiceImpl(DepartmentRepo departmentRepo, EmployeeRepo employeeRepo) {
         this.departmentRepo = departmentRepo;
@@ -25,28 +27,28 @@ public class CheckEntityServiceImpl implements CheckEntityService {
     @Override
     public void checkExistDepartmentById(Long id) {
         if (!departmentRepo.existsById(id)) {
-            throw new NoFoundEntityException("Department с id=" + id + " не найден!");
+            throw new NoFoundEntityException("Department с id=" + id + NOT_FOUND_TEXT);
         }
     }
 
     @Override
     public void checkExistDepartmentByName(String name) {
-        if (!departmentRepo.existsByName(name)) {
-            throw new NoFoundEntityException("Department с name=" + name + " не найден!");
+        if (Boolean.FALSE.equals(departmentRepo.existsByName(name))) {
+            throw new NoFoundEntityException("Department с name=" + name + NOT_FOUND_TEXT);
         }
     }
 
     @Override
     public void checkExistEmployeeById(Long id) {
         if (!employeeRepo.existsById(id)) {
-            throw new NoFoundEntityException("Employee с id=" + id + " не найден!");
+            throw new NoFoundEntityException("Employee с id=" + id + NOT_FOUND_TEXT);
         }
     }
 
     @Override
     public void checkNullableOrSavedEntity(Object o) {
         if (o == null) {
-            throw new NoSavedEntityException("Ошибка сохранения " + o + " в базу данных!");
+            throw new NoSavedEntityException("Ошибка сохранения в базу данных!");
         }
     }
 }

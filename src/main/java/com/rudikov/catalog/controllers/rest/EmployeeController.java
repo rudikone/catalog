@@ -74,14 +74,14 @@ public class EmployeeController {
     public ResponseEntity<List<EmployeeDTO>> getAllEmployees() {
         List<Employee> employees = employeeService.getAllEmployees();
         List<EmployeeDTO> employeeDTOs = employees.stream().map(employee -> employeeMapper.employeeToEmployeeDTO(employee)).collect(Collectors.toList());
-        return employeeDTOs != null && !employeeDTOs.isEmpty()
+        return !employeeDTOs.isEmpty()
                 ? new ResponseEntity<>(employeeDTOs, HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @DeleteMapping("/admin/employees/{id}")
     @ApiOperation(value = "delete employee")
-    public void delete(@PathVariable Long id) {
+    public void deleteEmployee(@PathVariable Long id) {
         checkEntityService.checkExistEmployeeById(id);
         employeeService.remove(id);
     }
