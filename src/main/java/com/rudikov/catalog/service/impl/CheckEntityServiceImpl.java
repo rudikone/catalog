@@ -45,10 +45,4 @@ public class CheckEntityServiceImpl implements CheckEntityService {
         }
     }
 
-    @Override
-    public void checkNullableOrSavedEntity(Object o) {
-        if (o == null) {
-            throw new NoSavedEntityException("Ошибка сохранения в базу данных!");
-        }
-    }
 }

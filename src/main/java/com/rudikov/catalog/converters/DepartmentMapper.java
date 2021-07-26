@@ -18,12 +18,11 @@ public interface DepartmentMapper {
         @Mapping(source = "department.employees", target = "employees", qualifiedByName = "EmpToEmpDTO")
     public DepartmentDTO departmentToDepartmentDTO(Department department);
 
-    @Mapping(source = "departmentDTO.employees", target = "employees", ignore = true)
-    public Department departmentDTOtoDepartment(DepartmentDTO departmentDTO, @Context EmployeeService service);
-
     @Named("EmpToEmpDTO")
     public Set<EmployeeDTO> employeeListToEmployeeDTOList(Set<Employee> employees);
 
+    @Mapping(source = "departmentDTO.employees", target = "employees", ignore = true)
+    public Department departmentDTOtoDepartment(DepartmentDTO departmentDTO, @Context EmployeeService service);
 
     @AfterMapping
     default void map(@MappingTarget Department target, DepartmentDTO departmentDTO, @Context EmployeeService service) {

@@ -24,33 +24,27 @@ public class EmployeeController {
     private EmployeeService employeeService;
     private EmployeeMapper employeeMapper;
     private DepartmentService departmentService;
-    private CheckEntityService checkEntityService;
 
     @Autowired
     public EmployeeController(EmployeeService employeeService,
                               EmployeeMapper employeeMapper,
-                              DepartmentService departmentService,
-                              CheckEntityService checkEntityService) {
+                              DepartmentService departmentService) {
         this.employeeService = employeeService;
         this.employeeMapper = employeeMapper;
         this.departmentService = departmentService;
-        this.checkEntityService = checkEntityService;
     }
 
     @PostMapping("/admin/employees")
     @ApiOperation(value = "add new employee")
     public ResponseEntity<EmployeeDTO> addNewEmployee(@RequestBody EmployeeDTO employeeDTO) {
-        checkEntityService.checkExistDepartmentByName(employeeDTO.getDepartment());
         Employee employee = employeeMapper.employeeDTOtoEmployee(employeeDTO, departmentService);
         Employee savedEmployee = employeeService.save(employee);
-        checkEntityService.checkNullableOrSavedEntity(savedEmployee);
         return new ResponseEntity<>(employeeMapper.employeeToEmployeeDTO(savedEmployee), HttpStatus.OK);
     }
 
     @GetMapping("/employees/{id}")
     @ApiOperation(value = "show employee")
     public ResponseEntity<EmployeeDTO> getEmployeeById(@PathVariable Long id) {
-        checkEntityService.checkExistEmployeeById(id);
         Employee employee = employeeService.getEmployeeById(id);
         return new ResponseEntity<>(employeeMapper.employeeToEmployeeDTO(employee), HttpStatus.OK);
     }
@@ -59,13 +53,10 @@ public class EmployeeController {
     @ApiOperation(value = "update employee")
     public ResponseEntity<EmployeeDTO> updateEmployee(@PathVariable Long id,
                                                       @RequestBody EmployeeDTO employeeDTO) {
-        checkEntityService.checkExistEmployeeById(id);
         Employee employeeFromDb = employeeService.getEmployeeById(id);
-        checkEntityService.checkExistDepartmentByName(employeeDTO.getDepartment());
         Employee employee = employeeMapper.employeeDTOtoEmployee(employeeDTO, departmentService);
         BeanUtils.copyProperties(employee, employeeFromDb, "id");
         Employee savedEmployee = employeeService.save(employeeFromDb);
-        checkEntityService.checkNullableOrSavedEntity(savedEmployee);
         return new ResponseEntity<>(employeeMapper.employeeToEmployeeDTO(savedEmployee), HttpStatus.OK);
     }
 
@@ -82,7 +73,6 @@ public class EmployeeController {
     @DeleteMapping("/admin/employees/{id}")
     @ApiOperation(value = "delete employee")
     public void deleteEmployee(@PathVariable Long id) {
-        checkEntityService.checkExistEmployeeById(id);
         employeeService.remove(id);
     }
 }
