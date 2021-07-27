@@ -45,6 +45,15 @@ public class DepartmentController {
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    @GetMapping("/not_dto_departments")
+    @ApiOperation(value = "show all departments")
+    public ResponseEntity<List<Department>> getAllNotDtoDepartments() {
+        List<Department> departments = departmentService.getAllDepartments();
+        return !departments.isEmpty()
+                ? new ResponseEntity<>(departments, HttpStatus.OK)
+                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
     @PostMapping("/admin/departments")
     @ApiOperation(value = "add new department")
     public ResponseEntity<DepartmentDTO> addNewDepartment(@RequestBody String name) {

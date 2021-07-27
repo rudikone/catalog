@@ -10,9 +10,9 @@ import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
+@Data
 @EqualsAndHashCode(of = {"id", "name"})
-@NoArgsConstructor
-@AllArgsConstructor
+@ToString(of = {"id", "name"})
 public class Department {
 
     @Id
@@ -31,42 +31,4 @@ public class Department {
     @OneToMany(mappedBy = "department", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private Set<Employee> employees;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public LocalDateTime getPersistDateTime() {
-        return persistDateTime;
-    }
-
-    public void setPersistDateTime(LocalDateTime persistDateTime) {
-        this.persistDateTime = persistDateTime;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Set<Employee> getEmployees() {
-        return employees;
-    }
-
-    public void setEmployees(Set<Employee> employees) {
-        this.employees = employees;
-    }
-
-    @Override
-    public String toString() {
-        return "Department{" +
-                "name='" + name + '\'' +
-                '}';
-    }
 }
