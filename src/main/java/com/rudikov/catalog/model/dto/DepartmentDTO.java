@@ -5,11 +5,10 @@ import lombok.*;
 import java.util.Set;
 
 @Data
-@EqualsAndHashCode(of = {"id", "name"})
-@ToString(of = {"id", "name"})
-public class DepartmentDTO {
+@EqualsAndHashCode(callSuper = true, of = {"name"})
+@ToString(of = {"name"})
+public class DepartmentDTO extends BaseDTO{
 
-    private Long id;
     private String name;
     private Set<EmployeeDTO> employees;
 

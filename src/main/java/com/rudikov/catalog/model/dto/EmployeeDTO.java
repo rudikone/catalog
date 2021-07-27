@@ -3,11 +3,10 @@ package com.rudikov.catalog.model.dto;
 import lombok.*;
 
 @Data
-@EqualsAndHashCode(of = {"id", "rank", "position", "firstName", "lastName", "phoneNumber"})
-@ToString(of = {"id", "rank", "position", "firstName", "lastName"})
-public class EmployeeDTO {
+@EqualsAndHashCode(callSuper = true, of = {"rank", "position", "firstName", "lastName", "phoneNumber"})
+@ToString(of = {"rank", "position", "firstName", "lastName"})
+public class EmployeeDTO extends BaseDTO{
 
-    private Long id;
     private String rank;
     private String position;
     private String firstName;
