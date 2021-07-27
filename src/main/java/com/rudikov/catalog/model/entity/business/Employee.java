@@ -2,24 +2,20 @@ package com.rudikov.catalog.model.entity.business;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.rudikov.catalog.model.entity.BaseEntity;
-import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.Type;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
-import javax.persistence.*;
-import java.time.LocalDateTime;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = true, of = {"rank", "position", "firstName", "lastName", "phoneNumber"})
 @ToString(of = {"rank", "position", "firstName", "lastName"})
 public class Employee extends BaseEntity {
-
-
-    @CreationTimestamp
-    @Column(name = "persist_date", updatable = false)
-    @Type(type = "org.hibernate.type.LocalDateTimeType")
-    private LocalDateTime persistDateTime;
 
     @Column(name = "rank")
     private String rank;

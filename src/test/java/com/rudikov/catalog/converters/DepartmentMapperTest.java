@@ -36,12 +36,13 @@ class DepartmentMapperTest extends AbstractMapperTest {
     }
 
     @Test
-    public void departmentToDepartmentDto_whenMaps_thenCorrect() {
+    void departmentToDepartmentDto_whenMaps_thenCorrect() {
         Set<Employee> employees = employeeService.findAllByDepartmentName("Отдел кадров");
 
         Department department = new Department();
         department.setId(1L);
-        department.setPersistDateTime(LocalDateTime.now());
+        department.setCreated(LocalDateTime.now());
+        department.setUpdated(LocalDateTime.now());
         department.setName("Отдел кадров");
         department.setEmployees(employees);
 
@@ -53,7 +54,7 @@ class DepartmentMapperTest extends AbstractMapperTest {
     }
 
     @Test
-    public void departmentDtoToDepartment_whenMaps_thenCorrect() {
+    void departmentDtoToDepartment_whenMaps_thenCorrect() {
         Set<Employee> employees = employeeService.findAllByDepartmentName("Отдел кадров");
         Set<EmployeeDTO> employeeDTOSet = employeeListToEmployeeDTOList(employees);
 
@@ -67,12 +68,12 @@ class DepartmentMapperTest extends AbstractMapperTest {
         assertEquals(departmentDTO.getName(), department.getName());
         assertEquals(departmentDTO.getId(), department.getId());
         assertThat(department.getEmployees()).isNotNull();
-        assertThat(department.getPersistDateTime()).isNull();
+        assertThat(department.getCreated()).isNull();
     }
 
 
     @Test
-    public void departmentDtoToDepartment_whenMaps_thenException() {
+    void departmentDtoToDepartment_whenMaps_thenException() {
         String name = "Отдел отделов";
 
         Throwable thrown = assertThrows(NoFoundEntityException.class, () -> {

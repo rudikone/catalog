@@ -28,12 +28,13 @@ class EmployeeMapperTest extends AbstractMapperTest {
     }
 
     @Test
-    public void employeeToEmployeeDto_whenMaps_thenCorrect() {
+    void employeeToEmployeeDto_whenMaps_thenCorrect() {
         Department department = departmentService.findDepartmentByName("Отдел кадров");
 
         Employee employee = new Employee();
         employee.setId(1L);
-        employee.setPersistDateTime(LocalDateTime.now());
+        employee.setCreated(LocalDateTime.now());
+        employee.setUpdated(LocalDateTime.now());
         employee.setRank("Младший");
         employee.setPosition("Разработчик");
         employee.setFirstName("Коля");
@@ -53,7 +54,7 @@ class EmployeeMapperTest extends AbstractMapperTest {
     }
 
     @Test
-    public void employeeDtoToEmployee_whenMaps_thenCorrect() {
+    void employeeDtoToEmployee_whenMaps_thenCorrect() {
         EmployeeDTO employeeDTO = new EmployeeDTO();
         employeeDTO.setId(1L);
         employeeDTO.setRank("Младший");
@@ -75,7 +76,7 @@ class EmployeeMapperTest extends AbstractMapperTest {
     }
 
     @Test
-    public void employeeDtoToEmployee_whenMaps_thenDepartmentNotFound() {
+    void employeeDtoToEmployee_whenMaps_thenDepartmentNotFound() {
         String name = "Отдел отделов";
 
         EmployeeDTO employeeDTO = new EmployeeDTO();
