@@ -1,6 +1,7 @@
 package com.rudikov.catalog.model.entity.business;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.rudikov.catalog.model.entity.BaseEntity;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
@@ -10,13 +11,10 @@ import java.time.LocalDateTime;
 
 @Entity
 @Data
-@EqualsAndHashCode(of = {"id", "rank", "position", "firstName", "lastName", "phoneNumber"})
-@ToString(of = {"id", "rank", "position", "firstName", "lastName"})
-public class Employee {
+@EqualsAndHashCode(callSuper = true, of = {"rank", "position", "firstName", "lastName", "phoneNumber"})
+@ToString(of = {"rank", "position", "firstName", "lastName"})
+public class Employee extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long id;
 
     @CreationTimestamp
     @Column(name = "persist_date", updatable = false)
